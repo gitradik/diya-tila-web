@@ -12,17 +12,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = [`Products`, `Pricing`, `Blog`];
+const settings = [`Profile`, `Account`, `Dashboard`, `Logout`];
 
 const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = (event: any) => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -38,16 +38,11 @@ const Navigation = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
+          <Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: `none`, md: `flex` } }}>
             LOGO
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: `flex`, md: `none` } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -62,18 +57,18 @@ const Navigation = () => {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: `bottom`,
+                horizontal: `left`,
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: `top`,
+                horizontal: `left`,
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: `block`, md: `none` },
               }}
             >
               {pages.map((page) => (
@@ -83,21 +78,12 @@ const Navigation = () => {
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-          >
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: `flex`, md: `none` } }}>
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: `none`, md: `flex` } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
+              <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: `white`, display: `block` }}>
                 {page}
               </Button>
             ))}
@@ -110,17 +96,17 @@ const Navigation = () => {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: `45px` }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: `top`,
+                horizontal: `right`,
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: `top`,
+                horizontal: `right`,
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}

@@ -14,17 +14,23 @@ const headerStyle = css`
 const Header = () => (
   <header className={tw(headerStyle)}>
     <div className={tw(`max-w-4xl mx-auto py-16 px-14 sm:px-6 lg:px-8`)}>
-      <h1 className={tw(`font-sans font-bold uppercase text-4xl md:text-5xl lg:text-8xl text-center leading-snug text-gray-800`)}>
+      <h1
+        className={tw(
+          `font-sans font-bold uppercase text-4xl md:text-5xl lg:text-8xl text-center leading-snug text-gray-800`,
+        )}
+      >
         Продайте свою недвижимость
       </h1>
       <div className={tw(`max-w-xl mx-auto`)}>
-        <p className={tw(`mt-10 text-gray-500 text-center text-xl lg:text-3xl`)}>
-          В Запорожье  вместе с #etagi_group
+        <p className={tw(`mt-10 text-gray-500 text-center text-xl lg:text-3xl`)}>В Запорожье вместе с #etagi_group</p>
+        <p className={tw(`mt-5 font-mono uppercase text-center font-medium text-lg text-gray-600`)}>
+          Хотите знать, как найти покупателя на квартиру?
         </p>
-        <p className={tw(`mt-5 font-mono uppercase text-center font-medium text-lg text-gray-600`)}>Хотите знать, как найти покупателя на квартиру?</p>
       </div>
       <div className={tw(`mt-10 flex justify-center items-center w-full mx-auto`)}>
-        <Button size="large" variant="contained">Быстрая консультация</Button>
+        <Button size="large" variant="contained">
+          Быстрая консультация
+        </Button>
       </div>
     </div>
     <div className={tw(`flex justify-center w-full`)}>

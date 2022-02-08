@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
   typography: {
@@ -9,13 +9,13 @@ export const theme = createTheme({
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: '#4f46e5',
+      main: `#4f46e5`,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      main: '#cdb06c',
-      contrastText: '#fff',
+      main: `#cdb06c`,
+      contrastText: `#fff`,
     },
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
@@ -29,12 +29,12 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         sizeLarge: {
-          padding: '10px 24px'
+          padding: `10px 24px`,
         },
         root: {
           ':focus': {
-            outline: 'none' 
-          }
+            outline: `none`,
+          },
         },
       },
     },
@@ -42,10 +42,10 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           ':focus': {
-            outline: 'none' 
-          }
+            outline: `none`,
+          },
         },
       },
     },
-  }
+  },
 });

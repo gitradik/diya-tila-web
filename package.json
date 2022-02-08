@@ -1,17 +1,11 @@
 {
-  "name": "startd-theme",
-  "description": "A TypeScript/Next.js theme that includes everything you need to build amazing landing page!",
+  "name": "etagi",
+  "description": "descr...",
   "version": "1.0.0",
   "private": true,
-  "author": "Jaakko Kytölä <kytola.jaakko@gmail.com> (jaakkokytola.com)",
+  "author": "radik.softdev@gmail.com",
   "license": "MIT",
-  "keywords": [
-    "nextjs",
-    "starter",
-    "typescript",
-    "tailwind",
-    "theme"
-  ],
+  "keywords": [],
   "scripts": {
     "dev": "next",
     "build": "next build",
