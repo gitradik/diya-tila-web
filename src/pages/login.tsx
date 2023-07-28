@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import axios from 'axios'; // Install axios using 'npm install axios' if not already installed
 import { TextField, Button } from '@mui/material';
 import { Email, Lock } from '@mui/icons-material';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { fbAuth } from '../../firebaseConfig';
 
 function LoginPage() {
   const [email, setEmail] = useState(``);
@@ -9,8 +10,8 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`/api/login`, { email, password });
-      console.log(response.data); // Handle the response as needed (e.g., show success message, redirect, etc.)
+      const userCredential = await signInWithEmailAndPassword(fbAuth, email, password);
+      console.log(`userCredential:`, userCredential);
     } catch (error) {
       console.error(error); // Handle the error response (e.g., show error message)
     }
