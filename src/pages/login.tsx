@@ -1,6 +1,7 @@
-// pages/login.tsx
 import { useState } from 'react';
 import axios from 'axios'; // Install axios using 'npm install axios' if not already installed
+import { TextField, Button } from '@mui/material';
+import { Email, Lock } from '@mui/icons-material';
 
 function LoginPage() {
   const [email, setEmail] = useState(``);
@@ -17,11 +18,32 @@ function LoginPage() {
 
   return (
     <div>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button type="submit" onClick={handleLogin}>
+      <TextField
+        label="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        InputProps={{
+          startAdornment: <Email />,
+        }}
+      />
+      <TextField
+        label="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        InputProps={{
+          startAdornment: <Lock />,
+        }}
+      />
+      <Button variant="contained" color="primary" onClick={handleLogin}>
         Login
-      </button>
+      </Button>
     </div>
   );
 }
