@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { tw } from 'twind';
 import Navigation from '@/components/navigation';
 
@@ -9,7 +8,6 @@ interface IProps {
 function Page({ children }: IProps) {
   return (
     <div>
-      <Head />
       <div className={tw(`min-h-screen flex flex-col`)}>
         <Navigation />
         {children}
