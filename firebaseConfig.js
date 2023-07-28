@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getAnalytics } from "firebase/analytics";
+import { getAuth, useAuthEmulator } from "firebase/auth";
+import { getAnalytics, isSupported } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,13 +19,22 @@ const config = {
 
 // Initialize Firebase
 const fbApp = initializeApp(config);
+
+// Check if Firebase Analytics is supported in the current environment
+const isAnalyticsSupported = isSupported();
+
 let firebaseAnalytics;
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && isAnalyticsSupported) {
   firebaseAnalytics = getAnalytics(fbApp);
 }
 
 const fbAuth = getAuth(fbApp);
+
+// Use Firebase Auth emulator if in development environment
+if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+  useAuthEmulator(fbAuth, "http://localhost:9099");
+}
 
 export { fbAuth, firebaseAnalytics };
 

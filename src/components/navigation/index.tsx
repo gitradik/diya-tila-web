@@ -75,10 +75,13 @@ function Navigation() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => {
-                  handleCloseNavMenu();
-                  router.push('/' + page.toLowerCase()); // Navigate to the page (assuming the page paths are based on the lowercase page names)
-                }}>
+                <MenuItem
+                  key={page}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    router.push(`/${page.toLowerCase()}`); // Navigate to the page (assuming the page paths are based on the lowercase page names)
+                  }}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -90,10 +93,14 @@ function Navigation() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: `none`, md: `flex` } }}>
             {pages.map((page) => (
-              <Button key={page} onClick={() => {
-                handleCloseNavMenu();
-                router.push('/' + page.toLowerCase()); // Navigate to the page (assuming the page paths are based on the lowercase page names)
-              }} sx={{ my: 2, color: `white`, display: `block` }}>
+              <Button
+                key={page}
+                onClick={() => {
+                  handleCloseNavMenu();
+                  router.push(`/${page.toLowerCase()}`); // Navigate to the page (assuming the page paths are based on the lowercase page names)
+                }}
+                sx={{ my: 2, color: `white`, display: `block` }}
+              >
                 {page}
               </Button>
             ))}
