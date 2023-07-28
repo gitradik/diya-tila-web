@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/router';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
@@ -13,10 +14,11 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LogoSvg from '@/constants/svg/logo_color.svg';
 
-const pages = [`Products`, `Pricing`, `Blog`];
+const pages = [`Products`, `Pricing`, `Blog`, `Login`];
 const settings = [`Profile`, `Account`, `Dashboard`, `Logout`];
 
 function Navigation() {
+  const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -73,18 +75,25 @@ function Navigation() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => {
+                  handleCloseNavMenu();
+                  router.push('/' + page.toLowerCase()); // Navigate to the page (assuming the page paths are based on the lowercase page names)
+                }}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
+
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: `flex`, md: `none` } }}>
-            LOGO
+            <LogoSvg width={70} height={70} />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: `none`, md: `flex` } }}>
             {pages.map((page) => (
-              <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: `white`, display: `block` }}>
+              <Button key={page} onClick={() => {
+                handleCloseNavMenu();
+                router.push('/' + page.toLowerCase()); // Navigate to the page (assuming the page paths are based on the lowercase page names)
+              }} sx={{ my: 2, color: `white`, display: `block` }}>
                 {page}
               </Button>
             ))}
