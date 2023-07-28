@@ -9,5 +9,5 @@ module.exports = {
 
     return config;
   },
-  output: 'dist',
+  output: 'export',
 };
