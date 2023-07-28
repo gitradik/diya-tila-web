@@ -1,46 +1,47 @@
 import { tw } from 'twind';
-import Particles from 'react-particles-js';
+// import Particles from 'react-particles-js';
 import Arrow from '@/constants/svg/arrow.svg';
 
 const ParticleBg = () => (
-  <Particles
-    params={{
-      particles: {
-        number: {
-          value: 400,
-          density: {
-            enable: true,
-            value_area: 3000,
-          },
-        },
-        line_linked: {
-          enable: false,
-        },
-        move: {
-          direction: `right`,
-          speed: 0.3,
-        },
-        size: {
-          value: 1,
-        },
-        opacity: {
-          anim: {
-            enable: true,
-            speed: 0.5,
-            opacity_min: 0.1,
-          },
-        },
-      },
-      interactivity: {
-        events: {
-          onclick: {
-            enable: false,
-          },
-        },
-      },
-      retina_detect: true,
-    }}
-  />
+  <div>Hello</div>
+  // <Particles
+  //   params={{
+  //     particles: {
+  //       number: {
+  //         value: 400,
+  //         density: {
+  //           enable: true,
+  //           value_area: 3000,
+  //         },
+  //       },
+  //       line_linked: {
+  //         enable: false,
+  //       },
+  //       move: {
+  //         direction: `right`,
+  //         speed: 0.3,
+  //       },
+  //       size: {
+  //         value: 1,
+  //       },
+  //       opacity: {
+  //         anim: {
+  //           enable: true,
+  //           speed: 0.5,
+  //           opacity_min: 0.1,
+  //         },
+  //       },
+  //     },
+  //     interactivity: {
+  //       events: {
+  //         onclick: {
+  //           enable: false,
+  //         },
+  //       },
+  //     },
+  //     retina_detect: true,
+  //   }}
+  // />
 );
 
 const articles = [

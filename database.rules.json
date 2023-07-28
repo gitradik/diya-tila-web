@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "UsersDetails": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "Usernames": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
+  }
+}

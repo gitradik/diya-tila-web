@@ -22,7 +22,7 @@ const Header = () => (
         Продайте свою недвижимость
       </h1>
       <div className={tw(`max-w-xl mx-auto`)}>
-        <p className={tw(`mt-10 text-gray-500 text-center text-xl lg:text-3xl`)}>В Запорожье вместе с #etagi_group</p>
+        {/* <p className={tw(`mt-10 text-gray-500 text-center text-xl lg:text-3xl`)}>В Запорожье вместе с #etagi_group</p> */}
         <p className={tw(`mt-5 font-mono uppercase text-center font-medium text-lg text-gray-600`)}>
           Хотите знать, как найти покупателя на квартиру?
         </p>
