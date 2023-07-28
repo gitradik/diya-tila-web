@@ -16,7 +16,7 @@ import LogoSvg from '@/constants/svg/logo_color.svg';
 const pages = [`Products`, `Pricing`, `Blog`];
 const settings = [`Profile`, `Account`, `Dashboard`, `Logout`];
 
-const Navigation = () => {
+function Navigation() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -40,7 +40,7 @@ const Navigation = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: `none`, md: `flex` } }}>
-            <LogoSvg width={70} height={70}/>
+            <LogoSvg width={70} height={70} />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: `flex`, md: `none` } }}>
@@ -123,5 +123,5 @@ const Navigation = () => {
       </Container>
     </AppBar>
   );
-};
+}
 export default Navigation;

@@ -15,7 +15,7 @@
     "SharedArrayBuffer": "readonly"
   },
   "plugins": ["import", "jsx-a11y", "react", "react-hooks", "prettier"],
-  "extends": ["airbnb", "eslint-config-prettier", "prettier/react"],
+  "extends": ["airbnb", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     "camelcase": "off",
@@ -53,7 +53,7 @@
       "plugins": ["@typescript-eslint/eslint-plugin"],
       "extends": [
         "plugin:@typescript-eslint/recommended",
-        "eslint-config-prettier/@typescript-eslint"
+        "eslint-config-prettier"
       ],
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
@@ -62,19 +62,10 @@
         "@typescript-eslint/no-use-before-define": [1],
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-var-requires": "off",
-        "max-len": ["error", {"code": 120, "ignoreUrls": true}],
+        "max-len": ["error", { "code": 150, "ignoreUrls": true }],
         "react/jsx-first-prop-new-line": [2, "multiline"],
-        "react/jsx-max-props-per-line": [
-          2,
-          { "maximum": 1, "when": "multiline" }
-        ],
-        "@typescript-eslint/quotes": [
-          2,
-          "backtick",
-          {
-            "avoidEscape": true
-          }
-        ]
+        "react/jsx-max-props-per-line": [2, { "maximum": 1, "when": "multiline" }],
+        "@typescript-eslint/quotes": [2, "backtick", { "avoidEscape": true }]
       }
     }
   ],
