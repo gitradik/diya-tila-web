@@ -5,11 +5,15 @@ import '@fontsource/inter';
 import { ThemeProvider } from '@mui/material';
 
 import { theme } from '../theme';
+import { UserProvider } from '@/context/UserContext';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
+      <UserProvider> {/* Wrap your entire application with the UserProvider */}
+        <Component {...pageProps} />
+      </UserProvider>
     </ThemeProvider>
   );
 }
+
