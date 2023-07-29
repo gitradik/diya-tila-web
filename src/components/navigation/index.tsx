@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import { useRouter } from 'next/router';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -14,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { FirebaseError } from 'firebase/app';
 import { User } from 'firebase/auth';
+import { ButtonBase, useTheme } from '@mui/material';
 import LogoSvg from '@/constants/svg/logo_color.svg';
 import { useUser } from '@/context/UserContext';
 import { ApiResponse, ApiResponseError } from '@/core/types/ApiResponse';
@@ -21,7 +23,7 @@ import { signOut } from '@/pages/api/auth/logout';
 import { useFirebaseError } from '@/hooks/FirebaseError';
 import { MobileDrawer } from './MobileDrawer';
 
-const pages = [`Products`, `Pricing`, `Blog`, `Login`];
+const pages = [`Products`, `Pricing`, `Blog`];
 const settings = [`Profile`, `Account`, `Dashboard`, `Logout`];
 
 // Desktop Navigation component
@@ -47,6 +49,8 @@ function DesktopNavigation() {
 
 // Main Navigation component
 function Navigation() {
+  const theme = useTheme();
+  const router = useRouter();
   const { user, setLoading } = useUser();
   const { handleFirebaseError, clearFirebaseError } = useFirebaseError();
 
@@ -119,36 +123,68 @@ function Navigation() {
           <DesktopNavigation />
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar />
-              </IconButton>
-            </Tooltip>
-            {/* Conditional rendering for the settings menu */}
             {user ? (
-              <Menu
-                sx={{ mt: `45px` }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: `top`,
-                  horizontal: `right`,
+              <Box>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar />
+                  </IconButton>
+                </Tooltip>
+
+                <Menu
+                  sx={{ mt: `45px` }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: `top`,
+                    horizontal: `right`,
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: `top`,
+                    horizontal: `right`,
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={setting === `Logout` ? handleLogout : handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            ) : (
+              // Render login and registration buttons
+              <Box
+                sx={{
+                  display: `flex`,
+                  alignItems: `center`,
+                  width: `fit-content`,
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: `top`,
-                  horizontal: `right`,
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={setting === `Logout` ? handleLogout : handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            ) : null}
+                {/* Use ButtonBase with variant="text" for a simple button without borders */}
+                <ButtonBase
+                  onClick={() => router.push(`/login`)}
+                  sx={{ color: theme.palette.secondary.contrastText, mr: 1 }}
+                >
+                  Login
+                </ButtonBase>
+                {/* Set the color of the Divider */}
+                <Divider
+                  orientation="vertical"
+                  variant="middle"
+                  flexItem
+                  sx={{ height: `20px`, borderColor: theme.palette.secondary.contrastText }}
+                />
+                <ButtonBase
+                  onClick={() => router.push(`/registration`)}
+                  sx={{ color: theme.palette.secondary.contrastText, ml: 1 }}
+                >
+                  Registration
+                </ButtonBase>
+              </Box>
+            )}
           </Box>
         </Toolbar>
       </Container>
