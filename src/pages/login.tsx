@@ -8,32 +8,33 @@ import { useFirebaseError } from '@/hooks/FirebaseError';
 import { useUser } from '@/context/UserContext';
 import { signInWithEmailAndPassword } from '@/pages/api/auth/login';
 import { ApiResponse, ApiResponseData, ApiResponseError } from '@/core/types/ApiResponse';
+import { useAuthGuard } from '@/hooks/AuthGuard';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const { error, handleFirebaseError, clearFirebaseError, getErrorMessage } = useFirebaseError();
-  const { user, setUser } = useUser(); // Access the setUser function from the useUser hook
+  const { user, loading, setLoading, setUser } = useUser();
 
   const handleLogin = async () => {
-    const response: ApiResponse<User, FirebaseError> = await signInWithEmailAndPassword(email, password);
+    const response: ApiResponse<User, FirebaseError> = await signInWithEmailAndPassword(email, password, setLoading);
 
     if (response.success) {
-      clearFirebaseError(); // Clear the error if the login is successful
+      clearFirebaseError();
       const userData: ApiResponseData<User> = response;
-
-      // Set the user data in the context using setUser
       setUser(userData.data);
     } else {
       const err: ApiResponseError<FirebaseError> = response;
-      handleFirebaseError(err.error); // Handle the error response and set the error message
+      handleFirebaseError(err.error);
     }
   };
 
+  useAuthGuard('/', true);
+
   return (
     <div>
-      {JSON.stringify(user)}
+      {loading ? 'Loading...' : JSON.stringify(user)}
       {error && <p>{getErrorMessage()}</p>}
       <TextField
         label="Email"

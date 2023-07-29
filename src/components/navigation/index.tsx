@@ -13,12 +13,21 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LogoSvg from '@/constants/svg/logo_color.svg';
+import { useUser } from '@/context/UserContext';
+import { ApiResponse, ApiResponseError } from '@/core/types/ApiResponse';
+import { FirebaseError } from 'firebase/app';
+import { User } from 'firebase/auth';
+import { signOut } from '@/pages/api/auth/logout';
+import { useFirebaseError } from '@/hooks/FirebaseError';
 
 const pages = [`Products`, `Pricing`, `Blog`, `Login`];
 const settings = [`Profile`, `Account`, `Dashboard`, `Logout`];
 
 function Navigation() {
   const router = useRouter();
+  const { error, handleFirebaseError, clearFirebaseError, getErrorMessage } = useFirebaseError();
+  const { user, loading, setLoading, setUser } = useUser();
+  
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -35,6 +44,21 @@ function Navigation() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = async () => {
+    if (user != null) {
+      setLoading(true);
+      const response: ApiResponse<User, FirebaseError> = await signOut(user);
+
+      if (response.success) {
+        clearFirebaseError();
+      } else {
+        const err: ApiResponseError<FirebaseError> = response;
+        handleFirebaseError(err.error);
+      }
+    }
+    handleCloseUserMenu(); // Close the settings menu after clicking "Logout"
   };
 
   return (
@@ -129,7 +153,7 @@ function Navigation() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : handleCloseNavMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

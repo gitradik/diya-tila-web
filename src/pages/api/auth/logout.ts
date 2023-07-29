@@ -1,26 +1,23 @@
-import { signInWithEmailAndPassword as signInWithFirebase, User } from 'firebase/auth';
+import { signOut as signOutFirebase, User } from 'firebase/auth';
 import { fbAuth } from '../../../../firebaseConfig';
 import { FirebaseError } from 'firebase/app';
-import { ApiResponse, ApiResponseData, ApiResponseError } from '@/core/types/ApiResponse';
+import { ApiResponse, ApiResponseError } from '@/core/types/ApiResponse';
 
-export const signInWithEmailAndPassword = async (
-  email: string,
-  password: string,
+export const signOut = async (
+  user: User,
   setLoading?: (isLoading: boolean) => void
 ): Promise<ApiResponse<User, FirebaseError>> => {
   try {
     if (setLoading) setLoading(true); 
-    const userCredential = await signInWithFirebase(fbAuth, email, password);
+    await signOutFirebase(fbAuth);
     if (setLoading) setLoading(false); 
-    
-    const data: ApiResponseData<User> = { success: true, data: userCredential.user };
 
-    return data;
+    return { success: true, data: user };
   } catch (error) {
     if (setLoading) setLoading(false); 
-
+    
     const err: ApiResponseError<FirebaseError> = { success: false, error: error as FirebaseError };
-
+    
     return err;
   }
 };
