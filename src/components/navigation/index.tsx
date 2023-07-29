@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import { Drawer, useTheme } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -23,23 +24,78 @@ import { useFirebaseError } from '@/hooks/FirebaseError';
 const pages = [`Products`, `Pricing`, `Blog`, `Login`];
 const settings = [`Profile`, `Account`, `Dashboard`, `Logout`];
 
-function Navigation() {
+interface MobileDrawerProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const MobileDrawer: React.FC<MobileDrawerProps> = ({ open, onClose }) => {
   const router = useRouter();
-  const { error, handleFirebaseError, clearFirebaseError, getErrorMessage } = useFirebaseError();
+  const theme = useTheme();
+
+  // Calculate the width of the drawer as 2/3 of the screen
+  const drawerWidth = theme.breakpoints.values.sm * (2 / 4);
+
+  return (
+    <Drawer anchor="left" open={open} onClose={onClose}>
+      <Box sx={{ width: drawerWidth, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', p: 2 }}>
+        {pages.map((page) => (
+          <MenuItem
+            key={page}
+            onClick={() => {
+              onClose();
+              router.push(`/${page.toLowerCase()}`);
+            }}
+          >
+            <Typography textAlign="center">{page}</Typography>
+          </MenuItem>
+        ))}
+      </Box>
+    </Drawer>
+  );
+};
+
+// Desktop Navigation component
+const DesktopNavigation = () => {
+  const router = useRouter();
+  const { user } = useUser();
+
+  return (
+    <Box sx={{ flexGrow: 1, display: { xs: `none`, md: `flex` } }}>
+      {pages.map((page) => (
+        <Button
+          key={page}
+          onClick={() => {
+            router.push(`/${page.toLowerCase()}`);
+          }}
+          sx={{ my: 2, color: `white`, display: `block` }}
+        >
+          {page}
+        </Button>
+      ))}
+    </Box>
+  );
+};
+
+// Main Navigation component
+const Navigation = () => {
+  const router = useRouter();
   const { user, loading, setLoading, setUser } = useUser();
-  
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const { error, handleFirebaseError, clearFirebaseError, getErrorMessage } = useFirebaseError();
+
+  const [openDrawer, setOpenDrawer] = React.useState(false); // State to control the mobile drawer
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event: any) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: any) => {
-    setAnchorElUser(event.currentTarget);
+  const handleToggleDrawer = () => {
+    setOpenDrawer(!openDrawer);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleCloseDrawer = () => {
+    setOpenDrawer(false);
+  };
+
+  const handleOpenUserMenu = (event: any) => {
+    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
@@ -58,7 +114,8 @@ function Navigation() {
         handleFirebaseError(err.error);
       }
     }
-    handleCloseUserMenu(); // Close the settings menu after clicking "Logout"
+    anchorElUser && handleCloseUserMenu(); // Close the settings menu after clicking "Logout"
+    openDrawer && handleCloseDrawer(); // Close the mobile drawer after clicking "Logout"
   };
 
   return (
@@ -69,66 +126,29 @@ function Navigation() {
             <LogoSvg width={70} height={70} />
           </Typography>
 
+          {/* Mobile menu */}
           <Box sx={{ flexGrow: 1, display: { xs: `flex`, md: `none` } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={handleToggleDrawer} // Use the handleToggleDrawer function to open/close the mobile drawer
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: `bottom`,
-                horizontal: `left`,
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: `top`,
-                horizontal: `left`,
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: `block`, md: `none` },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={() => {
-                    handleCloseNavMenu();
-                    router.push(`/${page.toLowerCase()}`); // Navigate to the page (assuming the page paths are based on the lowercase page names)
-                  }}
-                >
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
+
+          {/* Render the MobileDrawer component for mobile devices */}
+          <MobileDrawer open={openDrawer} onClose={handleCloseDrawer} />
 
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: `flex`, md: `none` } }}>
             <LogoSvg width={70} height={70} />
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: `none`, md: `flex` } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => {
-                  handleCloseNavMenu();
-                  router.push(`/${page.toLowerCase()}`); // Navigate to the page (assuming the page paths are based on the lowercase page names)
-                }}
-                sx={{ my: 2, color: `white`, display: `block` }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+
+          {/* Render the DesktopNavigation component for desktop devices */}
+          <DesktopNavigation />
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -136,32 +156,36 @@ function Navigation() {
                 <Avatar />
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: `45px` }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: `top`,
-                horizontal: `right`,
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: `top`,
-                horizontal: `right`,
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            {/* Conditional rendering for the settings menu */}
+            {user ? (
+              <Menu
+                sx={{ mt: `45px` }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: `top`,
+                  horizontal: `right`,
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: `top`,
+                  horizontal: `right`,
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            ) : null}
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
+};
+
 export default Navigation;
