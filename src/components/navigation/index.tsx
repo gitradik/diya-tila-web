@@ -1,7 +1,6 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import { Drawer, useTheme } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -13,52 +12,21 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { FirebaseError } from 'firebase/app';
+import { User } from 'firebase/auth';
 import LogoSvg from '@/constants/svg/logo_color.svg';
 import { useUser } from '@/context/UserContext';
 import { ApiResponse, ApiResponseError } from '@/core/types/ApiResponse';
-import { FirebaseError } from 'firebase/app';
-import { User } from 'firebase/auth';
 import { signOut } from '@/pages/api/auth/logout';
 import { useFirebaseError } from '@/hooks/FirebaseError';
+import { MobileDrawer } from './MobileDrawer';
 
 const pages = [`Products`, `Pricing`, `Blog`, `Login`];
 const settings = [`Profile`, `Account`, `Dashboard`, `Logout`];
 
-interface MobileDrawerProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-const MobileDrawer: React.FC<MobileDrawerProps> = ({ open, onClose }) => {
-  const router = useRouter();
-  const theme = useTheme();
-
-  // Calculate the width of the drawer as 2/3 of the screen
-  const drawerWidth = theme.breakpoints.values.sm * (2 / 4);
-
-  return (
-    <Drawer anchor="left" open={open} onClose={onClose}>
-      <Box sx={{ width: drawerWidth, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', p: 2 }}>
-        {pages.map((page) => (
-          <MenuItem
-            key={page}
-            onClick={() => {
-              onClose();
-              router.push(`/${page.toLowerCase()}`);
-            }}
-          >
-            <Typography textAlign="center">{page}</Typography>
-          </MenuItem>
-        ))}
-      </Box>
-    </Drawer>
-  );
-};
-
 // Desktop Navigation component
-const DesktopNavigation = () => {
+function DesktopNavigation() {
   const router = useRouter();
-  const { user } = useUser();
 
   return (
     <Box sx={{ flexGrow: 1, display: { xs: `none`, md: `flex` } }}>
@@ -75,13 +43,12 @@ const DesktopNavigation = () => {
       ))}
     </Box>
   );
-};
+}
 
 // Main Navigation component
-const Navigation = () => {
-  const router = useRouter();
-  const { user, loading, setLoading, setUser } = useUser();
-  const { error, handleFirebaseError, clearFirebaseError, getErrorMessage } = useFirebaseError();
+function Navigation() {
+  const { user, setLoading } = useUser();
+  const { handleFirebaseError, clearFirebaseError } = useFirebaseError();
 
   const [openDrawer, setOpenDrawer] = React.useState(false); // State to control the mobile drawer
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -114,8 +81,9 @@ const Navigation = () => {
         handleFirebaseError(err.error);
       }
     }
-    anchorElUser && handleCloseUserMenu(); // Close the settings menu after clicking "Logout"
-    openDrawer && handleCloseDrawer(); // Close the mobile drawer after clicking "Logout"
+
+    if (anchorElUser) handleCloseUserMenu(); // Close the settings menu after clicking "Logout"
+    if (openDrawer) handleCloseDrawer(); // Close the mobile drawer after clicking "Logout"
   };
 
   return (
@@ -141,7 +109,7 @@ const Navigation = () => {
           </Box>
 
           {/* Render the MobileDrawer component for mobile devices */}
-          <MobileDrawer open={openDrawer} onClose={handleCloseDrawer} />
+          <MobileDrawer pages={pages} open={openDrawer} onClose={handleCloseDrawer} />
 
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: `flex`, md: `none` } }}>
             <LogoSvg width={70} height={70} />
@@ -175,7 +143,7 @@ const Navigation = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : handleCloseUserMenu}>
+                  <MenuItem key={setting} onClick={setting === `Logout` ? handleLogout : handleCloseUserMenu}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
@@ -186,6 +154,6 @@ const Navigation = () => {
       </Container>
     </AppBar>
   );
-};
+}
 
 export default Navigation;

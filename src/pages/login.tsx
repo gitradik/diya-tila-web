@@ -11,8 +11,8 @@ import { ApiResponse, ApiResponseData, ApiResponseError } from '@/core/types/Api
 import { useAuthGuard } from '@/hooks/AuthGuard';
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(``);
+  const [password, setPassword] = useState(``);
 
   const { error, handleFirebaseError, clearFirebaseError, getErrorMessage } = useFirebaseError();
   const { user, loading, setLoading, setUser } = useUser();
@@ -30,11 +30,11 @@ function LoginPage() {
     }
   };
 
-  useAuthGuard('/', true);
+  useAuthGuard(`/`, true);
 
   return (
     <div>
-      {loading ? 'Loading...' : JSON.stringify(user)}
+      {loading ? `Loading...` : JSON.stringify(user)}
       {error && <p>{getErrorMessage()}</p>}
       <TextField
         label="Email"
