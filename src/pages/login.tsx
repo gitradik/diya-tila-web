@@ -1,24 +1,35 @@
 import { useState } from 'react';
+import { UserCredential } from 'firebase/auth';
 import { TextField, Button } from '@mui/material';
 import { Email, Lock } from '@mui/icons-material';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { fbAuth } from '../../firebaseConfig';
+
+import { useFirebaseError } from '@/hooks/FirebaseError';
+import { signInWithEmailAndPassword } from '@/pages/api/auth/login';
+import { ApiResponse, ApiResponseData, ApiResponseError } from '@/core/types/ApiResponse';
+import { FirebaseError } from 'firebase/app';
 
 function LoginPage() {
-  const [email, setEmail] = useState(``);
-  const [password, setPassword] = useState(``);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { error, handleFirebaseError, clearFirebaseError, getErrorMessage } = useFirebaseError();
 
   const handleLogin = async () => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(fbAuth, email, password);
-      console.log(`userCredential:`, userCredential);
-    } catch (error) {
-      console.error(error); // Handle the error response (e.g., show error message)
-    }
+      const response: ApiResponse<UserCredential, FirebaseError> = await signInWithEmailAndPassword(email, password);
+      
+      if (response.success) {
+        clearFirebaseError(); // Clear the error if the login is successful
+        const data: ApiResponseData<UserCredential> = response
+        console.log("data: ", data)
+      } else {
+        const err: ApiResponseError<FirebaseError> = response
+        handleFirebaseError(err.error); // Handle the error response and set the error message
+      }
   };
 
   return (
     <div>
+      {error && <p>{getErrorMessage()}</p>}
       <TextField
         label="Email"
         value={email}

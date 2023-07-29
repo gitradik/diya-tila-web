@@ -33,7 +33,7 @@ const fbAuth = getAuth(fbApp);
 
 // Use Firebase Auth emulator if in development environment
 if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
-  useAuthEmulator(fbAuth, "http://localhost:9099");
+  // useAuthEmulator(fbAuth, "http://localhost:9099");
 }
 
 export { fbAuth, firebaseAnalytics };
