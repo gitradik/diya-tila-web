@@ -160,11 +160,11 @@ function Navigation() {
                 <Button
                   size="small"
                   onClick={() => router.push(`/login`)}
-                  sx={{ textTransform: "initial", color: theme.palette.secondary.contrastText }}
+                  sx={{ textTransform: `initial`, color: theme.palette.secondary.contrastText }}
                 >
                   Login
                 </Button>
-                <Box sx={{ px: '6px'}}>
+                <Box sx={{ px: `6px` }}>
                   <Divider
                     orientation="vertical"
                     variant="middle"
@@ -174,7 +174,7 @@ function Navigation() {
                 <Button
                   size="small"
                   onClick={() => router.push(`/registration`)}
-                  sx={{ textTransform: "initial", color: theme.palette.secondary.contrastText }}
+                  sx={{ textTransform: `initial`, color: theme.palette.secondary.contrastText }}
                 >
                   Registration
                 </Button>

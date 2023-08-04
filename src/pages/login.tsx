@@ -4,12 +4,12 @@ import { User } from 'firebase/auth';
 import { TextField, Button, Box } from '@mui/material';
 import { Email, Lock, ArrowBack } from '@mui/icons-material';
 
+import { useRouter } from 'next/router';
 import { useFirebaseError } from '@/hooks/FirebaseError';
 import { useUser } from '@/context/UserContext';
 import { signInWithEmailAndPassword } from '@/pages/api/auth/login';
 import { ApiResponse, ApiResponseData, ApiResponseError } from '@/core/types/ApiResponse';
 import { useAuthGuard } from '@/hooks/AuthGuard';
-import { useRouter } from 'next/router';
 
 function LoginPage() {
   const router = useRouter();
@@ -17,7 +17,7 @@ function LoginPage() {
   const [password, setPassword] = useState(``);
 
   const { error, handleFirebaseError, clearFirebaseError, getErrorMessage } = useFirebaseError();
-  const { user, loading, setLoading, setUser } = useUser();
+  const { loading, setLoading, setUser } = useUser();
 
   const handleLogin = async () => {
     const response: ApiResponse<User, FirebaseError> = await signInWithEmailAndPassword(email, password, setLoading);
@@ -36,18 +36,25 @@ function LoginPage() {
 
   return (
     <div>
-      <Button onClick={() => router.back()} variant="outlined" sx={{ textTransform: 'initial' }} startIcon={<ArrowBack />}>
+      <Button
+        onClick={() => router.back()}
+        variant="outlined"
+        sx={{ textTransform: `initial` }}
+        startIcon={<ArrowBack />}
+      >
         Back
       </Button>
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        maxWidth: '300px',
-        margin: 'auto auto',
-        pt: 3
-      }}>
-        {loading ? `Loading...` : (error && <p>{getErrorMessage()}</p>) }
+      <Box
+        sx={{
+          display: `flex`,
+          flexDirection: `column`,
+          alignItems: `center`,
+          maxWidth: `300px`,
+          margin: `auto auto`,
+          pt: 3,
+        }}
+      >
+        {loading ? `Loading...` : error && <p>{getErrorMessage()}</p>}
         <TextField
           label="Email"
           value={email}
@@ -71,7 +78,7 @@ function LoginPage() {
             startAdornment: <Lock />,
           }}
         />
-        <Button variant="contained" color="primary" sx={{mt: 2}} onClick={handleLogin}>
+        <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={handleLogin}>
           Login
         </Button>
       </Box>

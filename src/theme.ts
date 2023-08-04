@@ -33,7 +33,7 @@ export const theme = createTheme({
           ':focus': {
             outline: `none`,
           },
-          minWidth: '0',
+          minWidth: `0`,
         },
       },
     },
