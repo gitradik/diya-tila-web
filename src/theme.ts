@@ -8,12 +8,12 @@ export const theme = createTheme({
   },
   palette: {
     primary: {
-      main: `#ffffff`, // White color as the primary main color
-      contrastText: `#000000`, // Text color to contrast with white background
+      main: `#6495ED`, // White color as the primary main color
+      contrastText: `#fff`, // Text color to contrast with white background
     },
     secondary: {
-      main: `#333333`, // Dark shade color as the secondary main color
-      contrastText: `#ffffff`, // Text color to contrast with dark background
+      main: `#F46639`, // Dark shade color as the secondary main color
+      contrastText: `#fff`, // Text color to contrast with dark background
     },
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
@@ -33,10 +33,20 @@ export const theme = createTheme({
           ':focus': {
             outline: `none`,
           },
+          minWidth: '0',
         },
       },
     },
     MuiIconButton: {
+      styleOverrides: {
+        root: {
+          ':focus': {
+            outline: `none`,
+          },
+        },
+      },
+    },
+    MuiInputBase: {
       styleOverrides: {
         root: {
           ':focus': {

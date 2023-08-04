@@ -15,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { FirebaseError } from 'firebase/app';
 import { User } from 'firebase/auth';
-import { ButtonBase, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import LogoSvg from '@/constants/svg/logo_color.svg';
 import { useUser } from '@/context/UserContext';
 import { ApiResponse, ApiResponseError } from '@/core/types/ApiResponse';
@@ -156,33 +156,28 @@ function Navigation() {
               </Box>
             ) : (
               // Render login and registration buttons
-              <Box
-                sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  width: `fit-content`,
-                }}
-              >
-                {/* Use ButtonBase with variant="text" for a simple button without borders */}
-                <ButtonBase
+              <Box sx={{ display: `flex` }}>
+                <Button
+                  size="small"
                   onClick={() => router.push(`/login`)}
-                  sx={{ color: theme.palette.secondary.contrastText, mr: 1 }}
+                  sx={{ textTransform: "initial", color: theme.palette.secondary.contrastText }}
                 >
                   Login
-                </ButtonBase>
-                {/* Set the color of the Divider */}
-                <Divider
-                  orientation="vertical"
-                  variant="middle"
-                  flexItem
-                  sx={{ height: `20px`, borderColor: theme.palette.secondary.contrastText }}
-                />
-                <ButtonBase
+                </Button>
+                <Box sx={{ px: '6px'}}>
+                  <Divider
+                    orientation="vertical"
+                    variant="middle"
+                    sx={{ height: `20px`, borderColor: theme.palette.secondary.contrastText }}
+                  />
+                </Box>
+                <Button
+                  size="small"
                   onClick={() => router.push(`/registration`)}
-                  sx={{ color: theme.palette.secondary.contrastText, ml: 1 }}
+                  sx={{ textTransform: "initial", color: theme.palette.secondary.contrastText }}
                 >
                   Registration
-                </ButtonBase>
+                </Button>
               </Box>
             )}
           </Box>
